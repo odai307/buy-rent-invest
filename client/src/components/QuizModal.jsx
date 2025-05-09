@@ -16,7 +16,7 @@ const QuizModal = ({isOpen, onClose}) => {
     // fetch quiz data from the backend
     useEffect(() => {
         if (isOpen) {
-            axios.get("http://localhost:5000/api/quiz")
+            axios.get("https://buy-rent-invest-production.up.railway.app/api/quiz")
             .then(response => {
                 setQuestions(response.data);
                 setLoading(false);
@@ -50,7 +50,7 @@ const QuizModal = ({isOpen, onClose}) => {
 
     const handleSubmit = () => {
         // send the answers to the backend for processing
-        axios.post("http://localhost:5000/api/quiz/submit", {answers: userAnswers})
+        axios.post("https://buy-rent-invest-production.up.railway.app/api/quiz/submit", {answers: userAnswers})
         .then((response) => {
             setResult(response.data);
         })
