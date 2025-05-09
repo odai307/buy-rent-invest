@@ -1,0 +1,27 @@
+# .gitignore
+
+# Ignore node_modules folders in both client and server
+/client/node_modules
+/server/node_modules
+
+# Ignore build output for React
+/client/build
+/client/dist
+
+# Ignore environment variable files in both client and server
+/client/.env
+/server/.env
+
+# Ignore log files
+*.log
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
+
+# Ignore npm package lock files (optional)
+package-lock.json
+
+# If you have any other specific files or folders you want to ignore, add them here
