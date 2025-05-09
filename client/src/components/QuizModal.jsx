@@ -8,7 +8,10 @@ const QuizModal = ({isOpen, onClose}) => {
     const [userAnswers, setUserAnswers] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [result, setResult] = useState(null);
 
+    const isPreviousDisabled = currentQuestion === 0;
+    const isNextDisabled = !userAnswers[currentQuestion];
 
     // fetch quiz data from the backend
     useEffect(() => {
@@ -29,8 +32,6 @@ const QuizModal = ({isOpen, onClose}) => {
     const handleNextQuestion = () => {
         if (currentQuestion < questions.length -1) {
             setCurrentQuestion(currentQuestion + 1);
-        } else {
-            // Complete Quiz
         }
     }
 
@@ -47,8 +48,16 @@ const QuizModal = ({isOpen, onClose}) => {
     }
 
 
-    const isPreviousDisabled = currentQuestion === 0;
-    const isNextDisabled = !userAnswers[currentQuestion];
+    const handleSubmit = () => {
+        // send the answers to the backend for processing
+        axios.post("http://localhost:5000/api/quiz/submit", {answers: userAnswers})
+        .then((response) => {
+            setResult(response.data);
+        })
+        .catch((error) => {
+            console.error("Error Submitting Answers", error);
+        })
+    }
 
     return (
         <Modal open={isOpen} onClose={onClose}>
@@ -88,7 +97,7 @@ const QuizModal = ({isOpen, onClose}) => {
                 </Button>
         
                 {/* Next Button */}
-                <Button variant="contained" color="primary" onClick={handleNextQuestion} className="m1-4" disabled={isNextDisabled}>
+                <Button variant="contained" color="primary" onClick={currentQuestion < questions.length - 1 ? handleNextQuestion: handleSubmit} className="m1-4" disabled={isNextDisabled}>
                     {currentQuestion < questions.length - 1 ? "Next" : "Finish"}
                 </Button>
                 </div>
